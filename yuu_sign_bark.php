@@ -8,20 +8,22 @@ Author: Yuuuuu0
 Author URL: https://github.com/Yuuuuu0
 */
 
-function yuu_bark_setting() {
+function yuu_sign_bark_setting() {
 	global $m;
 	?>
 	<tr><td>开启签到Bark通知</td>
 	<td>
 	<input type="radio" name="yuu_bark_enable" value="1" <?php if (option::uget('yuu_bark_enable') == 1) { echo 'checked'; } ?> > 是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="yuu_bark_enable" value="0" <?php if (option::uget('yuu_bark_enable') != 1) { echo 'checked'; } ?> > 否
-	</td></tr>
-    <tr><td>Bark URL</td>
-    <td><input type="text" name="yuu_bark_url" value="<?php echo htmlspecialchars(option::uget('yuu_bark_url')); ?>"></td>
+	</td>
 	</tr>
+	<tr><td>Bark地址</td>
+	<td>
+	<input type="text" name="yuu_bark_url" value="<?php echo option::uget('yuu_bark_url'); ?>" >
+	</td>
 	<?php
 }
-function yuu_bark_set() {
+function yuu_sign_bark_set() {
 	global $PostArray;
 	if (!empty($PostArray)) {
 		$PostArray[] = 'yuu_bark_enable';
@@ -29,6 +31,6 @@ function yuu_bark_set() {
 	}
 }
 
-addAction('set_save1','yuu_bark_setting');
-addAction('set_2','yuu_bark_set');
+addAction('set_save1','yuu_sign_bark_set');
+addAction('set_2','yuu_sign_bark_setting');
 ?>

@@ -4,10 +4,20 @@ global $m;
 
 function cron_sign_bark() {
     global $m;
+    $today=date("Y-m-d");
+    $lastday=option::get('yuu_sign_bark');
+    if ((time()-1396281600)%86400<21600)
+        return '未到发送Bark通知时间';
+    if ($today!=$lastday)
+        option::set('yuu_sign_bark',$today);
+    else return '今日任务已经执行完毕';
     $query = $m->query("SELECT * FROM  `".DB_NAME."`.`".DB_PREFIX."users`");
     while ($fetch = $m->fetch_array($query)) {
         $name = $fetch['name'];
         $id = $fetch['id'];
+        if(option::uget('yuu_bark_enable',$id) == 0){
+            return "通知未开启";
+        }
         $barkUrl = option::uget('yuu_bark_url', $id);
         if (empty($barkUrl)) {
             continue; // 如果未设置 barkUrl，则跳过此用户
