@@ -2,7 +2,7 @@
 /*
 Plugin Name: 签到Bark通知
 Version: 1.0
-Plugin URL: https://github.com/Yuuuuu0/Yuu_sign_bark
+Plugin URL: https://github.com/Yuuuuu0/yuu_sign_bark
 Description: 贴吧签到后自动Bark提醒
 Author: Yuuuuu0
 Author URL: https://github.com/Yuuuuu0
