@@ -13,13 +13,18 @@ function yuu_sign_bark_setting() {
 	?>
 	<tr><td>开启签到Bark通知</td>
 	<td>
-	<input type="radio" name="yuu_bark_enable" value="1" <?php if (option::uget('yuu_bark_enable') == 1) { echo 'checked'; } ?> > 是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="radio" name="yuu_bark_enable" value="0" <?php if (option::uget('yuu_bark_enable') != 1) { echo 'checked'; } ?> > 否
+		<input type="radio" name="yuu_bark_enable" value="1" <?php if (option::uget('yuu_bark_enable') == 1) { echo 'checked'; } ?> > 是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="yuu_bark_enable" value="0" <?php if (option::uget('yuu_bark_enable') != 1) { echo 'checked'; } ?> > 否
 	</td>
 	</tr>
 	<tr><td>Bark地址</td>
 	<td>
-	<input type="text" name="yuu_bark_url" value="<?php echo option::uget('yuu_bark_url'); ?>" >
+		<input type="text" class="form-control" name="yuu_bark_url" value="<?php echo option::uget('yuu_bark_url'); ?>" >
+	</td>
+	</tr>
+	<tr><td>推送时间</td>
+	<td>
+	    <input type="time" name="yuu_bark_time" value="<?php echo option::uget('yuu_bark_time'); ?>">
 	</td>
 	<?php
 }
@@ -28,6 +33,7 @@ function yuu_sign_bark_set() {
 	if (!empty($PostArray)) {
 		$PostArray[] = 'yuu_bark_enable';
 		$PostArray[] = 'yuu_bark_url';
+		$PostArray[] = 'yuu_bark_time';
 	}
 }
 

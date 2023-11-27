@@ -4,23 +4,26 @@ global $m;
 
 function cron_sign_bark() {
     global $m;
-    $today=date("Y-m-d");
-    $lastday=option::get('yuu_sign_bark');
-    if ((time()-1701048600)%86400<21600)
-        return '未到发送Bark通知时间';
-    if ($today!=$lastday)
-        option::set('yuu_sign_bark',$today);
-    else return '今日任务已经执行完毕';
+    $currentHourMinute = date("H:i");
+    $today = date("Y-m-d");
+
     $query = $m->query("SELECT * FROM  `".DB_NAME."`.`".DB_PREFIX."users`");
     while ($fetch = $m->fetch_array($query)) {
         $name = $fetch['name'];
         $id = $fetch['id'];
-        if(option::uget('yuu_bark_enable',$id) == 0){
-            return "通知未开启";
-        }
+
+        // 获取通知参数设置
+        $barkEnable = option::uget('yuu_bark_enable',$id);
         $barkUrl = option::uget('yuu_bark_url', $id);
-        if (empty($barkUrl)) {
-            continue; // 如果未设置 barkUrl，则跳过此用户
+        $barkTime = option::uget('yuu_bark_time', $id);
+        if ($barkEnable == 0 || empty($barkUrl) || empty($barkTime)) {
+            continue; // 未开启通知或参数错误，跳过此用户
+        }
+
+        $lastNotificationDate = option::uget('yuu_last_notification_date', $id);
+        // 判断是否进行过通知&是否到达通知时间
+        if ($today == $lastNotificationDate || $currentHourMinute != $barkTime) {
+            continue; // 今天已进行过通知或当前时间不匹配，跳过此用户
         }
 
         $notificationContent = "用户名: $name\n贴吧列表:\n";
@@ -31,7 +34,10 @@ function cron_sign_bark() {
             $notificationContent .= "$tiebaName, $status\n";
         }
 
+        // 发送通知
         sendBarkNotification($barkUrl, $notificationContent);
+        // 更新最后通知日期
+        option::uset('yuu_last_notification_date', $today, $id);
     }
     return '通知发送成功！';
 }
