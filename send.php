@@ -6,7 +6,7 @@ function cron_sign_bark() {
     global $m;
     $today=date("Y-m-d");
     $lastday=option::get('yuu_sign_bark');
-    if ((time()-1396281600)%86400<21600)
+    if ((time()-1701048600)%86400<21600)
         return '未到发送Bark通知时间';
     if ($today!=$lastday)
         option::set('yuu_sign_bark',$today);
