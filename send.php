@@ -15,8 +15,9 @@ function cron_sign_bark() {
         // 获取通知参数设置
         $barkEnable = option::uget('yuu_bark_enable',$id);
         $barkUrl = option::uget('yuu_bark_url', $id);
+        $barkKey = option::uget('yuu_bark_key', $id);
         $barkTime = option::uget('yuu_bark_time', $id);
-        if ($barkEnable == 0 || empty($barkUrl) || empty($barkTime)) {
+        if ($barkEnable == 0 || empty($barkUrl) || empty($barkTime) || empty($barkKey)) {
             continue; // 未开启通知或参数错误，跳过此用户
         }
 
@@ -35,15 +36,28 @@ function cron_sign_bark() {
         }
 
         // 发送通知
-        sendBarkNotification($barkUrl, $notificationContent);
+        sendBarkNotification($barkUrl, $notificationContent, $barkKey);
         // 更新最后通知日期
         option::uset('yuu_last_notification_date', $today, $id);
     }
     return '通知发送成功！';
 }
 
-function sendBarkNotification($url, $content) {
-    $notificationUrl = $url . "?title=签到通知&body=" . urlencode($content);
-    file_get_contents($notificationUrl); // 发送请求
+function sendBarkNotification($url, $content, $deviceKey) {
+    $data = json_encode([
+        'title' => '贴吧签到通知',
+        'body' => $content,
+        'device_key' => $deviceKey
+    ]);
+
+    $options = [
+        'http' => [
+            'header' => "Content-Type: application/json; charset=utf-8",
+            'method' => 'POST',
+            'content' => $data
+        ]
+    ];
+    $context = stream_context_create($options);
+    file_get_contents($url, false, $context);
 }
 ?>

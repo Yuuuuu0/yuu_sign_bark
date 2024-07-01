@@ -5,4 +5,7 @@
 
 # 使用说明
 1. 上传并安装插件
-2. 在个人设置中开启通知，并填写bark地址，选择通知时间
+2. 在个人设置中开启通知，并填写bark地址，bark密钥，选择通知时间
+实例：
+bark地址:https://your_push_url/push
+bark密钥:xxxxx 

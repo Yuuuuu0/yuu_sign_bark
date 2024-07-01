@@ -21,6 +21,10 @@ function yuu_sign_bark_setting() {
 	<td>
 		<input type="text" class="form-control" name="yuu_bark_url" value="<?php echo option::uget('yuu_bark_url'); ?>" >
 	</td>
+	<tr><td>Bark密钥</td>
+	<td>
+		<input type="text" class="form-control" name="yuu_bark_key" value="<?php echo option::uget('yuu_bark_key'); ?>" >
+	</td>
 	</tr>
 	<tr><td>推送时间</td>
 	<td>
@@ -33,6 +37,7 @@ function yuu_sign_bark_set() {
 	if (!empty($PostArray)) {
 		$PostArray[] = 'yuu_bark_enable';
 		$PostArray[] = 'yuu_bark_url';
+		$PostArray[] = 'yuu_bark_key';
 		$PostArray[] = 'yuu_bark_time';
 	}
 }
