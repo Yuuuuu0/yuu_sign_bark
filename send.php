@@ -45,7 +45,8 @@ function cron_sign_bark() {
 
 function sendBarkNotification($url, $content, $deviceKey) {
     $data = json_encode([
-        'title' => '贴吧签到通知',
+        'title' => '贴吧签到通知',  
+        'group' => '贴吧签到通知',
         'body' => $content,
         'device_key' => $deviceKey
     ]);
